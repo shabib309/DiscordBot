@@ -120,4 +120,4 @@ async def on_message(message):
     elif temp[0] == '!quote':
         await quote(message, temp)
 
-client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.lKn9XIJZdjAtwCyMfnxweu8JILU")
+client.run(TOKEN)
