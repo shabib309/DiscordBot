@@ -27,6 +27,7 @@ async def print_text(message, temp):
     output = ""
     for x in temp[1:]:
         output += (x + " ")
+    await clear(message, 1)
     await message.channel.send(output)
 
 
