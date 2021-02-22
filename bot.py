@@ -109,6 +109,7 @@ async def on_message(message):
         await roulette(message)
     elif option == '!help':
         await help(message)
+        await message.channel.purge(limit=1)
     elif temp[0] == '!clear':
         await clear(message, temp)
     elif temp[0] == '!clear_message':
@@ -120,6 +121,6 @@ async def on_message(message):
         await embed(message, temp)
     elif temp[0] == '!quote':
         await quote(message, temp)
-    await message.channel.purge(limit=1)
+
 
 client.run(TOKEN)
