@@ -49,7 +49,7 @@ async def coinflip(message):
     await message.channel.send("Type \"Heads\" or \"Tails\"")
 
     def check(m):
-        return (m.content.lower() == "heads" and m.channel == message.channel) or (m.content.lower() == "tails" and m.channel == message.channel)
+        return m.content.lower() == "heads" or m.content.lower() == "tails"
     msg = await client.wait_for("message", check=check)
     result = random.randint(1, 2)
     if result == 1:
@@ -61,8 +61,10 @@ async def coinflip(message):
 
 
 async def help(message):
+    output = ""
     for x in options:
-        await message.channel.send(x)
+        output += x
+    await message.channel.send(output)
 
 
 @client.event
