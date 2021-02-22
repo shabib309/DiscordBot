@@ -21,10 +21,12 @@ async def on_ready():
 
 
 async def botinfo(message):
+    clear_func_call(message)
     await message.channel.send('Alive and happy :)')
 
 
 async def print_text(message, temp):
+    clear_func_call(message)
     output = ""
     for x in temp[1:]:
         output += (x + " ")
@@ -32,6 +34,7 @@ async def print_text(message, temp):
 
 
 async def roulette(message):
+    clear_func_call(message)
     result = random.randint(1, 6)
     if result == 1:
         await message.channel.send('U died...')
@@ -40,6 +43,7 @@ async def roulette(message):
 
 
 async def clear(message, temp):
+    clear_func_call(message)
     if len(temp) == 1:
         await message.channel.purge(limit=1)
     else:
@@ -66,16 +70,19 @@ async def coinflip(message):
 
 
 async def help(message):
+    clear_func_call(message)
     output = ""
     for x in options:
         output += x + "\n"
     await message.channel.send(output)
 
 async def clear_message(message, id):
+    clear_func_call(message)
     msg = await message.channel.fetch_message(id)
     await msg.delete()
 
 async def embed(message, content):
+    clear_func_call(message)
     output = ""
     for x in content[1:]:
         output += x + " "
@@ -84,6 +91,7 @@ async def embed(message, content):
     await message.channel.send(embed=embedVar)
 
 async def quote(message, content):
+    clear_func_call(message)
     output = ""
     for x in content[1:]:
         output += x + " "
@@ -92,6 +100,9 @@ async def quote(message, content):
     embedVar.add_field(name=output, value=name)
     await message.channel.send(embed=embedVar)
 
+async def clear_func_call(message_for_delete):
+    await message_for_delete.channel.purge(limit=1)
+
 @client.event
 async def on_message(message):
     if message.author == client.user:
@@ -99,7 +110,6 @@ async def on_message(message):
     temp = message.content.split()
     option = message.content.lower()
     message_for_delete = message
-    await message_for_delete.channel.purge(limit=1)
     if option == '!botinfo':
         await botinfo(message)
     elif temp[0] == '!print':
