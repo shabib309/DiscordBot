@@ -2,8 +2,10 @@
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 client = discord.Client()
 
@@ -24,4 +26,4 @@ async def on_message(message):
             await message.channel.send(output)
 
 
-client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.wxZ8gtDeHZEVAwgiJB8ZWPtrQsg")
+client.run(TOKEN)
