@@ -1,4 +1,5 @@
 import discord
+from discord import colour
 from discord.ext import commands
 from dotenv import load_dotenv
 import random
@@ -67,9 +68,23 @@ async def help(message):
         output += x + "\n"
     await message.channel.send(output)
 
+async def help(message, which):
+    output = ""
+    for x in options:
+        output += x + "\n"
+    await message.channel.send(output)
+
 async def clear_message(message, id):
     msg = await message.channel.fetch_message(id)
     await msg.delete()
+
+async def embed(message, content):
+    author = client.user
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+    embed.add_field(name=format(client.user), value=content, inline=False)
+    await message.channel.send(embed)
 
 @client.event
 async def on_message(message):
@@ -92,5 +107,7 @@ async def on_message(message):
         await message.channel.purge(limit=1)
     elif option == '!coinflip':
         await coinflip(message)
+    elif option == '!embed':
+        await embed(message, temp[1])
 
 client.run(TOKEN)
