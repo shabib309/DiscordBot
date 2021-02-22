@@ -8,8 +8,8 @@ import os
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-options = {"!help", "!botinfo", "!print",
-           "!Russisch Roulette", "!CoinFlip", "!clear_message"}
+options = {"!help", "!botinfo", "!print <YourText>",
+           "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
 
 client = commands.Bot(command_prefix='!')
 
