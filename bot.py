@@ -1,10 +1,8 @@
 import discord
 from discord.ext import commands
-from discord.webhook import RequestsWebhookAdapter
 from dotenv import load_dotenv
 import random
 import os
-import youtube_dl
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
