@@ -73,8 +73,7 @@ async def clear_message(message, id):
     await msg.delete()
 
 async def embed(message, colour, content):
-    colour = "Colour." + colour
-    embedVar = discord.Embed(title=message.author, description=content, color=colour)
+    embedVar = discord.Embed(title=message.author, description=content)
     await message.channel.send(embed=embedVar)
 
 @client.event
