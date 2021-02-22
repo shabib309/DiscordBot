@@ -28,7 +28,6 @@ async def print_text(message, temp):
     output = ""
     for x in temp[1:]:
         output += (x + " ")
-    await message.channel.purge(limit=1)
     await message.channel.send(output)
 
 
@@ -42,7 +41,7 @@ async def roulette(message):
 
 async def clear(message, temp):
     if len(temp) == 1:
-        await message.channel.purge(limit=2)
+        await message.channel.purge(limit=1)
     else:
         limit = (int(temp[1]) + 1)
         if limit >= 10:
@@ -77,7 +76,6 @@ async def clear_message(message, id):
     await msg.delete()
 
 async def embed(message, content):
-    await message.channel.purge(limit=1)
     output = ""
     for x in content[1:]:
         output += x + " "
@@ -86,7 +84,6 @@ async def embed(message, content):
     await message.channel.send(embed=embedVar)
 
 async def quote(message, content):
-    await message.channel.purge(limit=1)
     output = ""
     for x in content[1:]:
         output += x + " "
@@ -101,6 +98,8 @@ async def on_message(message):
         return
     temp = message.content.split()
     option = message.content.lower()
+    message_for_delete = message
+    await message_for_delete.channel.purge(limit=1)
     if option == '!botinfo':
         await botinfo(message)
     elif temp[0] == '!print':
@@ -109,12 +108,10 @@ async def on_message(message):
         await roulette(message)
     elif option == '!help':
         await help(message)
-        await message.channel.purge(limit=1)
     elif temp[0] == '!clear':
         await clear(message, temp)
     elif temp[0] == '!clear_message':
         await clear_message(message, temp[1])
-        await message.channel.purge(limit=1)
     elif option == '!coinflip':
         await coinflip(message)
     elif temp[0] == '!embed':
