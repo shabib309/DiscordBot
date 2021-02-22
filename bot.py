@@ -41,7 +41,7 @@ async def roulette(message):
 
 async def clear(message, temp):
     if len(temp) == 1:
-        await message.channel.purge(limit=1)
+        await message.channel.purge(limit=2)
     else:
         await message.channel.purge(limit=(int(temp[1]) + 1))
 
