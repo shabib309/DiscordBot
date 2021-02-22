@@ -45,5 +45,6 @@ async def on_message(message):
     elif message.content == '!help':
         await message.channel.send("!botinfo\n!print\n!Russisch Roulette\n!help")
     message.delete()
+    client.add_command(command=clear)
 
 client.run(TOKEN)
