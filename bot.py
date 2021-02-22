@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.webhook import RequestsWebhookAdapter
 from dotenv import load_dotenv
 import random
 import os
