@@ -64,6 +64,9 @@ async def help(message):
     for x in options:
         await message.channel.send(x)
 
+async def clear_message(message, id):
+    msg = await message.channel.fetch_message(id)
+    await msg.delete()
 
 @client.event
 async def on_message(message):
@@ -81,7 +84,10 @@ async def on_message(message):
         await help(message)
     elif temp[0] == '!clear':
         await clear(message, temp)
+    elif temp[0] == '!clear_message':
+        await clear_message(message, temp[1])
+        await message.channel.purge(limit=1)
     elif option == '!coinflip':
         await coinflip(message)
 
-client.run(TOKEN)
+client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.pFFKU7NqRWprQtZG7ijizPotYNM")
