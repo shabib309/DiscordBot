@@ -46,7 +46,7 @@ async def clear(message, temp):
     else:
         limit = (int(temp[1]) + 1)
         if limit >= 10:
-            await message.channel.purge(limit=10)
+            await message.channel.purge(limit=11)
             return
         await message.channel.purge(limit=(int(temp[1]) + 1))
 
