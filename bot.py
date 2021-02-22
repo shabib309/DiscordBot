@@ -9,7 +9,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 options = {"!help", "!botinfo", "!print",
-           "!Russisch Roulette", "!CoinFlip"}
+           "!Russisch Roulette", "!CoinFlip", "!clear_message"}
 
 client = commands.Bot(command_prefix='!')
 
@@ -62,12 +62,19 @@ async def coinflip(message):
 
 
 async def help(message):
+    output = ""
     for x in options:
-        await message.channel.send(x)
+        output += x
+    await message.channel.send(output)
 
 async def clear_message(message, id):
     msg = await message.channel.fetch_message(id)
     await msg.delete()
+
+async def play_music(message, where):
+    channel = get(message.guild.channels, name=where)
+    voicechannel = await channel.connect()
+    voicechannel.play(discord.FFmpegPCMAudio)
 
 @client.event
 async def on_message(message):
@@ -90,5 +97,8 @@ async def on_message(message):
         await message.channel.purge(limit=1)
     elif option == '!coinflip':
         await coinflip(message)
+    elif option.startsWith("!play"):
+        where = message.content.split(" ")[1]
+        await play_music(message, where)
 
 client.run(TOKEN)
