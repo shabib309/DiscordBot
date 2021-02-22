@@ -72,9 +72,8 @@ async def clear_message(message, id):
     msg = await message.channel.fetch_message(id)
     await msg.delete()
 
-async def embed(message, content):
-    embedVar = discord.Embed(title="Title", description="Desc", color=0x00ff00)
-    embedVar.add_field(name="Field1", value=content, inline=False)
+async def embed(message, colour, content):
+    embedVar = discord.Embed(title=message.author, description=content, color="Color." + colour)
     await message.channel.send(embed=embedVar)
 
 @client.event
@@ -99,6 +98,6 @@ async def on_message(message):
     elif option == '!coinflip':
         await coinflip(message)
     elif temp[0] == '!embed':
-        await embed(message, temp[1])
+        await embed(message, temp[1], temp)
 
 client.run(TOKEN)
