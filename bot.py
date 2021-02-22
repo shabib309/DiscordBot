@@ -4,6 +4,7 @@ from discord.webhook import RequestsWebhookAdapter
 from dotenv import load_dotenv
 import random
 import os
+import youtube_dl
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -62,19 +63,15 @@ async def coinflip(message):
 
 
 async def help(message):
-    output = ""
+    output = "```diff\n"
     for x in options:
         output += x + "\n"
+    output += "```"
     await message.channel.send(output)
 
 async def clear_message(message, id):
     msg = await message.channel.fetch_message(id)
     await msg.delete()
-
-async def play_music(message, where):
-    channel = get(message.guild.channels, name=where)
-    voicechannel = await channel.connect()
-    voicechannel.play(discord.FFmpegPCMAudio)
 
 @client.event
 async def on_message(message):
@@ -97,8 +94,5 @@ async def on_message(message):
         await message.channel.purge(limit=1)
     elif option == '!coinflip':
         await coinflip(message)
-    elif option.startsWith("!play"):
-        where = message.content.split(" ")[1]
-        await play_music(message, where)
 
-client.run(TOKEN)
+client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.WUCL5PWJHtvgvBQK04TE6pj8wjg")
