@@ -68,23 +68,14 @@ async def help(message):
         output += x + "\n"
     await message.channel.send(output)
 
-async def help(message, which):
-    output = ""
-    for x in options:
-        output += x + "\n"
-    await message.channel.send(output)
-
 async def clear_message(message, id):
     msg = await message.channel.fetch_message(id)
     await msg.delete()
 
 async def embed(message, content):
-    author = client.user
-    embed = discord.Embed(
-        colour = discord.Colour.orange()
-    )
-    embed.add_field(name=format(client.user), value=content, inline=False)
-    await message.channel.send(embed)
+    embedVar = discord.Embed(title="Title", description="Desc", color=0x00ff00)
+    embedVar.add_field(name="Field1", value=content, inline=False)
+    await message.channel.send(embed=embedVar)
 
 @client.event
 async def on_message(message):
