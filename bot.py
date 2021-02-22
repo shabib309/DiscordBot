@@ -15,12 +15,14 @@ client = commands.Bot(command_prefix='!')
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
 
-@client.command()
-async def clear(ctx, amount=5):
-    await ctx.channel.purge(limit=amount)
 
 @client.command()
-async def kick(ctx, member : discord.member, *,reason="None"):
+async def clear(ctx, amount=5):
+    await ctx.message.delete()
+
+
+@client.command()
+async def kick(ctx, member: discord.member, *, reason="None"):
     await member.kick(reason=reason)
 
 
@@ -38,9 +40,10 @@ async def on_message(message):
         result = random.randint(1, 6)
         if result == 1:
             await message.channel.send('U died...')
-            return
-        await message.channel.send('U survived...')
+        else:
+            await message.channel.send('U survived...')
     elif message.content == '!help':
         await message.channel.send("!botinfo\n!print\n!Russisch Roulette\n!help")
+    message.delete()
 
 client.run(TOKEN)
