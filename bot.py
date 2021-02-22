@@ -2,6 +2,7 @@
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+import random
 import os
 
 load_dotenv()
@@ -22,8 +23,12 @@ async def on_message(message):
             output = ""
             for x in temp[1:]:
                 output += (x + " ")
-
             await message.channel.send(output)
-
-
+        elif message.content == 'Russisch Roulette':
+            result = random.randint(1,6)
+            if result == 1:
+                await message.channel.send('U died...')
+                return
+            await message.channel.send('U survived...')
+            
 client.run(TOKEN)
