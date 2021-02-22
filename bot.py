@@ -64,7 +64,7 @@ async def coinflip(message):
 async def help(message):
     output = ""
     for x in options:
-        output += x
+        output += x + "\n"
     await message.channel.send(output)
 
 async def clear_message(message, id):
