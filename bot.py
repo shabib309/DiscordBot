@@ -44,6 +44,9 @@ async def clear(message, temp):
     if len(temp) == 1:
         await message.channel.purge(limit=2)
     else:
+        limit = (int(temp[1]) + 1)
+        if limit >= 10:
+            await message.channel.purge(limit=10)
         await message.channel.purge(limit=(int(temp[1]) + 1))
 
 
@@ -73,10 +76,22 @@ async def clear_message(message, id):
     await msg.delete()
 
 async def embed(message, content):
+    await message.channel.purge(limit=1)
     output = ""
-    for x in content:
-        output += x
-    embedVar = discord.Embed(title=message.author, description=output)
+    for x in content[1:]:
+        output += x + " "
+    embedVar = discord.Embed()
+    embedVar.add_field(name=format(message.author), value=output)
+    await message.channel.send(embed=embedVar)
+
+async def quote(message, content):
+    await message.channel.purge(limit=1)
+    output = ""
+    for x in content[1:]:
+        output += x + " "
+    embedVar = discord.Embed()
+    name = "- " + format(message.author) + " 2021"
+    embedVar.add_field(name=output, value=name)
     await message.channel.send(embed=embedVar)
 
 @client.event
@@ -102,5 +117,7 @@ async def on_message(message):
         await coinflip(message)
     elif temp[0] == '!embed':
         await embed(message, temp)
+    elif temp[0] == '!quote':
+        await quote(message, temp)
 
-client.run(TOKEN)
+client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.lKn9XIJZdjAtwCyMfnxweu8JILU")
