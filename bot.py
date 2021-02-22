@@ -109,6 +109,7 @@ async def on_message(message):
         await roulette(message)
     elif option == '!help':
         await help(message)
+        await message.channel.purge(limit=1)
     elif temp[0] == '!clear':
         await clear(message, temp)
     elif temp[0] == '!clear_message':
