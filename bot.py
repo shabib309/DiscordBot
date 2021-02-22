@@ -63,7 +63,7 @@ async def coinflip(message):
 
 
 async def help(message):
-    output = "```diff\n"
+    output = "```css\n"
     for x in options:
         output += x + "\n"
     output += "```"
