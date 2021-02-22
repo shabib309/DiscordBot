@@ -90,4 +90,4 @@ async def on_message(message):
     elif option == '!coinflip':
         await coinflip(message)
 
-client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.pFFKU7NqRWprQtZG7ijizPotYNM")
+client.run(TOKEN)
