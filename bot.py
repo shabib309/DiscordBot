@@ -98,7 +98,7 @@ async def on_message(message):
         await message.channel.purge(limit=1)
     elif option == '!coinflip':
         await coinflip(message)
-    elif option == '!embed':
+    elif temp[0] == '!embed':
         await embed(message, temp[1])
 
 client.run(TOKEN)
