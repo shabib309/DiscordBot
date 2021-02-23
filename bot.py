@@ -4,12 +4,17 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import random
 import os
+import requests
+import re
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-options = {"!help", "!botinfo", "!print <YourText>",
+options = {"!help", "!botinfo", "!print <YourText>", "!joke", "!fuckoff"
            "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
+
+actions = ['awesome/', 'because/', 'bye/', 'cool/', 'diabetes/', 'everyone/', 'everything/',
+           'fascinating/', 'flying/', 'life/', 'pink/', 'thanks/', 'that/', 'this/', 'what/']
 
 client = commands.Bot(command_prefix='!')
 
@@ -76,19 +81,22 @@ async def help(message):
         output += x + "\n"
     await message.channel.send(output)
 
+
 async def clear_message(message, id):
     await clear_func_call(message)
     msg = await message.channel.fetch_message(id)
     await msg.delete()
+
 
 async def embed(message, content):
     await clear_func_call(message)
     output = ""
     for x in content[1:]:
         output += x + " "
-    embedVar = discord.Embed()
-    embedVar.add_field(name=format(message.author), value=output)
-    await message.channel.send(embed=embedVar)
+    embedvar = discord.Embed()
+    embedvar.add_field(name=format(message.author), value=output)
+    await message.channel.send(embed=embedvar)
+
 
 async def quote(message, content):
     await clear_func_call(message)
@@ -100,19 +108,34 @@ async def quote(message, content):
     embed_var.add_field(name=output, value=name)
     await message.channel.send(embed=embed_var)
 
+
 async def joke(message):
-    from jokeapi import Jokes # Import the Jokes class
+    clear_func_call(message)
+    from jokeapi import Jokes  # Import the Jokes class
     j = Jokes()
     joke = j.get_joke(lang="en")
     output = ""
-    if joke['type'] == 'single': # Print the joke
+    if joke['type'] == 'single':  # Print the joke
         output = joke['joke']
     else:
         output = joke["setup"] + " " + joke["delivery"]
     await message.channel.send(output)
 
+
+async def fuckoff(message):
+    url = "https://foaas.com/" + \
+        format(actions[random.randint(1, len(actions)) - 1]) + \
+        str(message.author)
+    text = requests.get(url).text
+    text = re.search("<title>.*</title>", text)
+    out = text.group(0)
+    out = out[15:-8]
+    await message.channel.send(out)
+
+
 async def clear_func_call(message_for_delete):
     await message_for_delete.channel.purge(limit=1)
+
 
 @client.event
 async def on_message(message):
@@ -140,5 +163,7 @@ async def on_message(message):
         await quote(message, temp)
     elif option == '!joke':
         await joke(message)
+    elif option == '!fuckoff':
+        await fuckoff(message)
 
 client.run(TOKEN)
