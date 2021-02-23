@@ -124,9 +124,7 @@ async def joke(message):
 
 async def fuckoff(message):
     clear_func_call(message)
-    url = "https://foaas.com/" + \
-        format(actions[random.randint(1, len(actions)) - 1]) + \
-        str(message.author)
+    url = "https://foaas.com/" + format(actions[random.randint(1, len(actions)) - 1]) + str(message.author)
     text = requests.get(url).text
     text = re.search("<title>.*</title>", text)
     out = text.group(0)
