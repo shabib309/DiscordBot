@@ -120,7 +120,14 @@ async def joke(message):
     await message.channel.send(output)
 
 
-
+async def fuckoff(message):
+    await clear_func_call(message)
+    url = "https://foaas.com/" + format(actions[random.randint(1, len(actions)) - 1]) + str(message.author)
+    text = requests.get(url).text
+    text = re.search("<title>.*</title>", text)
+    out = text.group(0)
+    out = out[15:-8]
+    await message.channel.send(out)
 
 
 async def clear_func_call(message_for_delete):
@@ -153,7 +160,7 @@ async def on_message(message):
         await quote(message, temp)
     elif option == '!joke':
         await joke(message)
-   # elif option == '!fuckoff':
-       # await fuckoff(message)
+    elif option == '!fuckoff':
+        await fuckoff(message)
 
-client.run(TOKEN)
+client.run(TOKEn)
