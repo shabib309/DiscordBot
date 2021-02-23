@@ -130,7 +130,8 @@ async def fuckoff(message):
     await message.channel.send(out)
 
 async def pin(message, id):
-    message.channel.pin_message(id)
+    msg_to_pin = await message.channel.get_message(int(id))
+    await msg_to_pin.pin()
 
 
 async def clear_func_call(message_for_delete):
