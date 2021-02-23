@@ -95,10 +95,21 @@ async def quote(message, content):
     output = ""
     for x in content[1:]:
         output += x + " "
-    embedVar = discord.Embed()
+    embed_var = discord.Embed()
     name = "- " + format(message.author) + " 2021"
-    embedVar.add_field(name=output, value=name)
-    await message.channel.send(embed=embedVar)
+    embed_var.add_field(name=output, value=name)
+    await message.channel.send(embed=embed_var)
+
+async def joke(message):
+    from jokeapi import Jokes # Import the Jokes class
+    j = Jokes()
+    joke = j.get_joke(lang="en")
+    output = ""
+    if joke['type'] == 'single': # Print the joke
+        output = joke['joke']
+    else:
+        output = joke["setup"] + " " + joke["delivery"]
+    await message.channel.send(output)
 
 async def clear_func_call(message_for_delete):
     await message_for_delete.channel.purge(limit=1)
@@ -127,6 +138,7 @@ async def on_message(message):
         await embed(message, temp)
     elif temp[0] == '!quote':
         await quote(message, temp)
-
+    elif option == '!joke':
+        await joke(message)
 
 client.run(TOKEN)
