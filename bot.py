@@ -123,6 +123,7 @@ async def joke(message):
 
 
 async def fuckoff(message):
+    clear_func_call(message)
     url = "https://foaas.com/" + \
         format(actions[random.randint(1, len(actions)) - 1]) + \
         str(message.author)
