@@ -163,4 +163,4 @@ async def on_message(message):
     elif option == '!fuckoff':
         await fuckoff(message)
 
-client.run(TOKEn)
+client.run(TOKEN)
