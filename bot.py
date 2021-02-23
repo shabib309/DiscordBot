@@ -10,11 +10,9 @@ import re
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-options = {"!help", "!botinfo", "!print <YourText>", "!joke", "!fuckoff"
-           "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
+options = {"!help", "!botinfo", "!print <YourText>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
 
-actions = ['awesome/', 'because/', 'bye/', 'cool/', 'diabetes/', 'everyone/', 'everything/',
-           'fascinating/', 'flying/', 'life/', 'pink/', 'thanks/', 'that/', 'this/', 'what/']
+actions = ['awesome/', 'because/', 'bye/', 'cool/', 'diabetes/', 'everyone/', 'everything/', 'fascinating/', 'flying/', 'life/', 'pink/', 'thanks/', 'that/', 'this/', 'what/']
 
 client = commands.Bot(command_prefix='!')
 
