@@ -129,6 +129,9 @@ async def fuckoff(message):
     out = out[15:-8]
     await message.channel.send(out)
 
+async def pin(message, id):
+    message.channel.pin_message(id)
+
 
 async def clear_func_call(message_for_delete):
     await message_for_delete.channel.purge(limit=1)
@@ -162,5 +165,7 @@ async def on_message(message):
         await joke(message)
     elif option == '!fuckoff':
         await fuckoff(message)
+    elif temp[0] == '!pin':
+        await pin(message, temp[1])
 
 client.run(TOKEN)
