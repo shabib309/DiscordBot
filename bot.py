@@ -108,7 +108,7 @@ async def quote(message, content):
 
 
 async def joke(message):
-    clear_func_call(message)
+    await clear_func_call(message)
     from jokeapi import Jokes  # Import the Jokes class
     j = Jokes()
     joke = j.get_joke(lang="en")
