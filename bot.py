@@ -62,7 +62,7 @@ async def coinflip(message):
 
     def check(m):
         return m.content.lower() == "heads" or m.content.lower() == "tails"
-    msg = await client.wait_for("message", check=check)
+    msg = await client.wait_for("message", check=check, timeout=10)
     result = random.randint(1, 2)
     if result == 1:
         if msg.content.lower() == "tails":
@@ -145,6 +145,7 @@ async def on_message(message):
         return
     temp = message.content.split()
     option = message.content.lower()
+    temp[0] = temp[0].lower()
     if option == '!botinfo':
         await botinfo(message)
     elif temp[0] == '!print':
