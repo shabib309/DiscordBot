@@ -23,8 +23,6 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="ASMR"))
     global nasa_id
     nasa_id = 0
-    global apod_running
-    apod_running = False
     print(f'{client.user} has connected to Discord!')
 
 
@@ -160,8 +158,6 @@ async def apod(id):
 
 async def init_apod(message, id):
     await clear_func_call(message)
-    global apod_running
-    apod_running = True
     client.loop.create_task(apod(id))
 
 async def clear_func_call(message_for_delete):
@@ -170,7 +166,6 @@ async def clear_func_call(message_for_delete):
 
 @client.event
 async def on_message(message):
-    global apod_running
     if message.author == client.user:
         return
     temp = message.content.split()
@@ -200,7 +195,7 @@ async def on_message(message):
         await fuckoff(message)
     elif temp[0] == '!pin':
         await pin(message, temp[1])
-    elif temp[0] == '!nasa' and apod_running != True and temp[1] != 0:
+    elif temp[0] == '!nasa' and temp[1] != 0:
         await init_apod(message, temp[1])
         
 client.run(TOKEN)
