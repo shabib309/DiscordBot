@@ -10,7 +10,6 @@ import re
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 NASA_TOKEN = os.getenv('NASA_TOKEN')
-apod_running = False
 
 options = {"!help", "!botinfo", "!nasa (Can only be started once)", "!print <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
 
@@ -24,6 +23,8 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="ASMR"))
     global nasa_id
     nasa_id = 0
+    global apod_running
+    apod_running = False
     print(f'{client.user} has connected to Discord!')
 
 
@@ -159,6 +160,7 @@ async def apod(id):
 
 async def init_apod(message, id):
     await clear_func_call(message)
+    global apod_running
     apod_running = True
     client.loop.create_task(apod(id))
 
@@ -168,6 +170,7 @@ async def clear_func_call(message_for_delete):
 
 @client.event
 async def on_message(message):
+    global apod_running
     if message.author == client.user:
         return
     temp = message.content.split()
