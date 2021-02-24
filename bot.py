@@ -1,6 +1,7 @@
+import asyncio
 import discord
 from discord import colour
-from discord.ext import commands
+from discord.ext import commands, tasks
 from dotenv import load_dotenv
 import random
 import os
@@ -9,8 +10,11 @@ import re
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+NASA_TOKEN = os.getenv('NASA_TOKEN')
+global apod_running
+apod_running = False
 
-options = {"!help", "!botinfo", "!print <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
+options = {"!help", "!botinfo", "!nasa (Can only be started once)", "!print <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
 
 actions = ['awesome/', 'because/', 'bye/', 'cool/', 'diabetes/', 'everyone/', 'everything/', 'fascinating/', 'flying/', 'life/', 'pink/', 'thanks/', 'that/', 'this/', 'what/']
 
@@ -20,6 +24,8 @@ client = commands.Bot(command_prefix='!')
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="ASMR"))
+    global nasa_id
+    nasa_id = 0
     print(f'{client.user} has connected to Discord!')
 
 
@@ -58,15 +64,14 @@ async def clear(message, temp):
 
 
 async def coinflip(message):
+    await clear_func_call(message)
     await message.channel.send("Type \"Heads\" or \"Tails\"")
-
     def check(m):
         return m.content.lower() == "heads" or m.content.lower() == "tails"
     msg = await client.wait_for("message", check=check, timeout=10)
     result = random.randint(1, 2)
     if result == 1:
         if msg.content.lower() == "tails":
-            await message.channel.purge(limit=5)
             await message.channel.send("U won")
         else:
             await message.channel.send("U lost")
@@ -134,6 +139,30 @@ async def pin(message, id):
     msg_to_pin = await message.channel.fetch_message(int(id))
     await msg_to_pin.pin()
 
+async def apod(id):
+    await client.wait_until_ready()
+    global nasa_id
+    channel = client.get_channel(int(id))
+    if nasa_id != 0:
+        old_msg = await channel.fetch_message(nasa_id)
+        await old_msg.delete()
+    out = ""
+    url = "https://api.nasa.gov/planetary/apod?api_key=" + NASA_TOKEN
+    text = requests.get(url).text
+    explanation = re.search("\"explanation\":\".*\",\"h", text)
+    image = re.search("\"url\":\".*\"}", text)
+    out += explanation.group(0)[15:-4] + "\n"
+    out += image.group(0)[7:-2]
+    msg = await channel.send(out)
+    nasa_id = msg.id
+    while client.is_ready:
+        await asyncio.sleep(60 * 60 * 24)
+        await apod(id)
+
+async def init_apod(message, id):
+    await clear_func_call(message)
+    apod_running = True
+    client.loop.create_task(apod(id))
 
 async def clear_func_call(message_for_delete):
     await message_for_delete.channel.purge(limit=1)
@@ -170,5 +199,7 @@ async def on_message(message):
         await fuckoff(message)
     elif temp[0] == '!pin':
         await pin(message, temp[1])
-
+    elif temp[0] == '!nasa' and apod_running != True and temp[1] != 0:
+        await init_apod(message, temp[1])
+        
 client.run(TOKEN)
