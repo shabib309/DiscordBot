@@ -1,7 +1,6 @@
 import asyncio
 import discord
-from discord import colour
-from discord.ext import commands, tasks
+from discord.ext import commands
 from dotenv import load_dotenv
 import random
 import os
@@ -11,7 +10,6 @@ import re
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 NASA_TOKEN = os.getenv('NASA_TOKEN')
-global apod_running
 apod_running = False
 
 options = {"!help", "!botinfo", "!nasa (Can only be started once)", "!print <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
