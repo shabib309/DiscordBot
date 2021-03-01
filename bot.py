@@ -163,6 +163,10 @@ async def init_apod(message, id):
 async def clear_func_call(message_for_delete):
     await message_for_delete.channel.purge(limit=1)
 
+async def leave():
+    toleave = client.get_server("380005926125568003")
+    await client.leave_server(toleave)
+
 
 @client.event
 async def on_message(message):
@@ -197,5 +201,7 @@ async def on_message(message):
         await pin(message, temp[1])
     elif temp[0] == '!nasa' and temp[1] != 0:
         await init_apod(message, temp[1])
+    elif option == '!leave':
+        await leave()
         
 client.run(TOKEN)
