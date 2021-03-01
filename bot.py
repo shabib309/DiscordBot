@@ -156,16 +156,35 @@ async def apod(id):
         await asyncio.sleep(60 * 60 * 24)
         await apod(id)
 
+async def cat(message):
+    await clear_func_call(message)
+    url = "https://api.thecatapi.com/v1/favourites"
+    querystring = {"limit":"1"}
+    headers = {'x-api-key': '93553b26-eb25-49ae-8c72-c2e22e7874f3'}
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    await message.channel.send(response.text)
+
+async def donate(message):
+    await message.channel.send("https://paypal.me/Shabib309?locale.x=de_DE")
+
+async def ip(message, ip):
+    await clear_func_call(message)
+    url = "http://ip-api.com/json/" + ip
+    text = requests.get(url).text
+    details = re.search("\"country\".*", text)
+    out = ""
+    out = details.group(0)[:-1]
+    out = out.replace("\"", "")
+    out = out.replace(",", "\n")
+    out = out.replace(":", " : ")
+    await message.channel.send(out)
+
 async def init_apod(message, id):
     await clear_func_call(message)
     client.loop.create_task(apod(id))
 
 async def clear_func_call(message_for_delete):
     await message_for_delete.channel.purge(limit=1)
-
-async def leave():
-    toleave = client.get_server("380005926125568003")
-    await client.leave_server(toleave)
 
 
 @client.event
@@ -185,7 +204,7 @@ async def on_message(message):
         await help(message)
     elif temp[0] == '!clear':
         await clear(message, temp)
-    elif temp[0] == '!clear_message':
+    elif temp[0] == '!clear_message' and temp[1] != 0:
         await clear_message(message, temp[1])
     elif option == '!coinflip':
         await coinflip(message)
@@ -200,8 +219,12 @@ async def on_message(message):
     elif temp[0] == '!pin':
         await pin(message, temp[1])
     elif temp[0] == '!nasa' and temp[1] != 0:
-        await init_apod(message, temp[1])
-    elif option == '!leave':
-        await leave()
-        
+        await init_apod(message, temp[1])  
+    elif option == '!cat':
+        await cat(message)
+    elif option == '!donate':
+        await donate(message)
+    elif temp[0] == '!ip' and temp[1] != 0:
+        await ip(message, temp[1])
+
 client.run(TOKEN)
