@@ -234,4 +234,4 @@ async def on_message(message):
     elif temp[0] == '!ip' and temp[1] != 0:
         await ip(message, temp[1])
 
-client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.XoDC5fc4loZ8XFvZYyxCv29kRjk")
+client.run(TOKEN)
