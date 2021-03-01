@@ -7,6 +7,8 @@ import os
 import requests
 import re
 
+from requests.models import Response
+
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 NASA_TOKEN = os.getenv('NASA_TOKEN')
@@ -124,11 +126,7 @@ async def joke(message):
 
 async def fuckoff(message):
     await clear_func_call(message)
-    url = "https://foaas.com/" + format(actions[random.randint(1, len(actions)) - 1]) + str(message.author)
-    text = requests.get(url).text
-    text = re.search("<title>.*</title>", text)
-    out = text.group(0)
-    out = out[15:-8]
+    out = await request_call("https://foaas.com/" + format(actions[random.randint(1, len(actions)) - 1]) + str(message.author), "<title>.*</title>", 15, -8)
     await message.channel.send(out)
 
 async def pin(message, id):
@@ -157,27 +155,36 @@ async def apod(id):
         await apod(id)
 
 async def cat(message):
-    await clear_func_call(message)
-    url = "https://api.thecatapi.com/v1/favourites"
-    querystring = {"limit":"1"}
-    headers = {'x-api-key': '93553b26-eb25-49ae-8c72-c2e22e7874f3'}
-    response = requests.request("GET", url, headers=headers, params=querystring)
-    await message.channel.send(response.text)
+    #await clear_func_call(message)
+    url = "http://thecatapi.com/api/images/get?format=src&type=gif"
+    response = requests.get(url)
+    text = response.content
+    await message.channel.send(text)
 
 async def donate(message):
     await message.channel.send("https://paypal.me/Shabib309?locale.x=de_DE")
 
 async def ip(message, ip):
     await clear_func_call(message)
-    url = "http://ip-api.com/json/" + ip
-    text = requests.get(url).text
-    details = re.search("\"country\".*", text)
     out = ""
-    out = details.group(0)[:-1]
+    out = await request_call("http://ip-api.com/json/" + ip, "\"country\".*", 0, -1)
     out = out.replace("\"", "")
     out = out.replace(",", "\n")
     out = out.replace(":", " : ")
     await message.channel.send(out)
+
+async def request_call(url="", search="", startOffset=0,endOffset=0):
+    if url == "":
+        return ""
+    response = requests.get(url).text
+    if search != "":
+        result = re.search(search, response)
+    content = ""
+    if endOffset != 0:
+        content = result.group(0)[startOffset:endOffset]
+    else:
+        content = result.group(0)[startOffset:]
+    return content
 
 async def init_apod(message, id):
     await clear_func_call(message)
@@ -227,4 +234,4 @@ async def on_message(message):
     elif temp[0] == '!ip' and temp[1] != 0:
         await ip(message, temp[1])
 
-client.run(TOKEN)
+client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.XoDC5fc4loZ8XFvZYyxCv29kRjk")
