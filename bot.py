@@ -310,4 +310,4 @@ async def on_message(message):
     elif option == '!dog':
         await dog(message)
 
-client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.1tRdRpiecI-25zbKj-W2FpQ5xWU")
+client.run(TOKEN)
