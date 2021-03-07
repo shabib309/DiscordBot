@@ -6,10 +6,12 @@ import random
 import os
 import requests
 import re
+import translators as ts
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 NASA_TOKEN = os.getenv('NASA_TOKEN')
+WEATHER_TOKEN = os.getenv('WEATHER_TOKEN')
 
 options = {"!help", "!botinfo", "!nasa (Can only be started once) <channelID>", "!print <YourText>", "!donate", "!weather <cityName>", "!ip <ip-address>", "!translate <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
 
@@ -167,7 +169,7 @@ async def ip(message, ip):
 async def weather(message, cityName):
     await clear_func_call(message)
     response = cityName + " Wetter:\n"
-    response += await request_call("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=ffe6e374dd79bbdf314ead39aec1e76f&units=metric", "\"temp\":.*,\"deg", 0, -5)
+    response += await request_call("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + WEATHER_TOKEN + "&units=metric", "\"temp\":.*,\"deg", 0, -5)
     old = [",", "{", "}", "\"temp\"", "\"feels_like\"", "\"temp_min\"", "\"temp_max\"", "\"pressure\"", "\"humidity\"", "\"visibility\"", "\"wind\":\"speed\"", ":"]
     new = ["\n", "", "", "Temperatur", "Gefühlt", "Minimum", "Maximum", "Druck", "Luftfeuchtigkeit", "Sichtweite", "Windgeschwindigkeit", " : "]
     i = 0
@@ -181,7 +183,6 @@ async def translate(message, text):
     for x in text[1:]:
         temp += (x + " ")
     text = temp
-    import translators as ts
     result = ts.google(text, to_language='de')
     await message.channel.send(result)
 
