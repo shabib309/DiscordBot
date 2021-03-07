@@ -242,14 +242,9 @@ async def fact(message):
 
 async def cat(message):
     await clear_func_call(message)
-    url = "https://api.thecatapi.com/v1/favourites"
-    querystring = {"limit":"1"}
-    headers = {'x-api-key': '93553b26-eb25-49ae-8c72-c2e22e7874f3'}
-    response = requests.request("GET", url, headers=headers, params=querystring).text
-    out = ""
-    result = re.search("\"url\": \".*\"", response)
-    out = result.group(0)[8:-1]
-    await message.channel.send(out)
+    id = random.randint(1, 1500)
+    result = await request_call("http://random.cat/view/" + str(id), "><img src=\"https://purr.objects.*\" alt=", 11 , -6)
+    await message.channel.send(result)
 
 async def request_call(url="", search="", startOffset=0,endOffset=0):
     if url == "":
