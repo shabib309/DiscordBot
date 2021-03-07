@@ -14,7 +14,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 NASA_TOKEN = os.getenv('NASA_TOKEN')
 WEATHER_TOKEN = os.getenv('WEATHER_TOKEN')
 
-options = {"!help", "!botinfo", "!init_daily (Can only be started once) <channelID>", "!dog", "!steam <YourSteamLink>", "!print <YourText>", "!donate", "!weather <cityName>", "!ip <ip-address>", "!translate <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
+options = {"!help", "!cat", "!botinfo", "!init_daily (Can only be started once) <channelID>", "!dog", "!steam <YourSteamLink>", "!print <YourText>", "!donate", "!weather <cityName>", "!ip <ip-address>", "!translate <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
 options = sorted(options, key=str.lower)
 
 actions = ['awesome/', 'because/', 'bye/', 'cool/', 'diabetes/', 'everyone/', 'everything/', 'fascinating/', 'flying/', 'life/', 'pink/', 'thanks/', 'that/', 'this/', 'what/']
@@ -235,6 +235,22 @@ async def dog(message):
     result = await request_call("https://random.dog/woof.json", "\"url\":.*\"}", 7, -2)
     await message.channel.send(result)
 
+async def fact(message):
+    await clear_func_call(message)
+    result = await request_call("http://api.fungenerators.com/fact/random", "\"fact\": \".*\",", 9, -2)
+    await message.channel.send(result)
+
+async def cat(message):
+    await clear_func_call(message)
+    url = "https://api.thecatapi.com/v1/favourites"
+    querystring = {"limit":"1"}
+    headers = {'x-api-key': '93553b26-eb25-49ae-8c72-c2e22e7874f3'}
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    out = ""
+    result = re.search("\"url\": \".*\"", response)
+    out = result.group(0)[8:-1]
+    await message.channel.send(out)
+
 async def request_call(url="", search="", startOffset=0,endOffset=0):
     if url == "":
         return ""
@@ -309,5 +325,9 @@ async def on_message(message):
         await steam(message, temp[1])
     elif option == '!dog':
         await dog(message)
+    elif option == '!fact':
+        await fact(message)
+    elif option == '!cat':
+        await cat(message)
 
 client.run(TOKEN)
