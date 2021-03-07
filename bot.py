@@ -155,6 +155,7 @@ async def apod(id):
         await apod(id)
 
 async def donate(message):
+    await clear_func_call(message)
     await message.channel.send("https://paypal.me/Shabib309?locale.x=de_DE")
 
 async def ip(message, ip):
