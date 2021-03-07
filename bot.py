@@ -7,13 +7,11 @@ import os
 import requests
 import re
 
-from requests.models import Response
-
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 NASA_TOKEN = os.getenv('NASA_TOKEN')
 
-options = {"!help", "!botinfo", "!nasa (Can only be started once)", "!print <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
+options = {"!help", "!botinfo", "!nasa (Can only be started once) <channelID>", "!print <YourText>", "!donate", "!weather <cityName>", "!ip <ip-address>", "!translate <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
 
 actions = ['awesome/', 'because/', 'bye/', 'cool/', 'diabetes/', 'everyone/', 'everything/', 'fascinating/', 'flying/', 'life/', 'pink/', 'thanks/', 'that/', 'this/', 'what/']
 
@@ -154,13 +152,6 @@ async def apod(id):
         await asyncio.sleep(60 * 60 * 24)
         await apod(id)
 
-async def cat(message):
-    #await clear_func_call(message)
-    url = "http://thecatapi.com/api/images/get?format=src&type=gif"
-    response = requests.get(url)
-    text = response.content
-    await message.channel.send(text)
-
 async def donate(message):
     await message.channel.send("https://paypal.me/Shabib309?locale.x=de_DE")
 
@@ -172,6 +163,27 @@ async def ip(message, ip):
     out = out.replace(",", "\n")
     out = out.replace(":", " : ")
     await message.channel.send(out)
+
+async def weather(message, cityName):
+    await clear_func_call(message)
+    response = cityName + " Wetter:\n"
+    response += await request_call("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=ffe6e374dd79bbdf314ead39aec1e76f&units=metric", "\"temp\":.*,\"deg", 0, -5)
+    old = [",", "{", "}", "\"temp\"", "\"feels_like\"", "\"temp_min\"", "\"temp_max\"", "\"pressure\"", "\"humidity\"", "\"visibility\"", "\"wind\":\"speed\"", ":"]
+    new = ["\n", "", "", "Temperatur", "Gefühlt", "Minimum", "Maximum", "Druck", "Luftfeuchtigkeit", "Sichtweite", "Windgeschwindigkeit", " : "]
+    i = 0
+    for i in range(len(old)):
+        response = response.replace(old[i], new[i])
+    await message.channel.send(response)   
+
+async def translate(message, text):
+    await clear_func_call(message)
+    temp = ""
+    for x in text[1:]:
+        temp += (x + " ")
+    text = temp
+    import translators as ts
+    result = ts.google(text, to_language='de')
+    await message.channel.send(result)
 
 async def request_call(url="", search="", startOffset=0,endOffset=0):
     if url == "":
@@ -225,13 +237,15 @@ async def on_message(message):
         await fuckoff(message)
     elif temp[0] == '!pin':
         await pin(message, temp[1])
-    elif temp[0] == '!nasa' and temp[1] != 0:
+    elif temp[0] == '!nasa' and (temp[1] != 0 or temp[1] == 'stop'):
         await init_apod(message, temp[1])  
-    elif option == '!cat':
-        await cat(message)
     elif option == '!donate':
         await donate(message)
     elif temp[0] == '!ip' and temp[1] != 0:
         await ip(message, temp[1])
+    elif temp[0] == '!weather' and temp[1] != "":
+        await weather(message, temp[1])
+    elif temp[0] == '!translate' and temp[1] != 0:
+        await translate(message, temp)
 
 client.run(TOKEN)
