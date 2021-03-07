@@ -245,7 +245,7 @@ async def cat(message):
     url = "https://api.thecatapi.com/v1/favourites"
     querystring = {"limit":"1"}
     headers = {'x-api-key': '93553b26-eb25-49ae-8c72-c2e22e7874f3'}
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request("GET", url, headers=headers, params=querystring).text
     out = ""
     result = re.search("\"url\": \".*\"", response)
     out = result.group(0)[8:-1]
