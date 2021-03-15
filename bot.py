@@ -7,7 +7,6 @@ import os
 import requests
 import re
 import translators as ts
-import json
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -166,7 +165,7 @@ async def apod(id):
     out = ""
     url = "https://api.nasa.gov/planetary/apod?api_key=" + NASA_TOKEN
     text = requests.get(url).text
-    explanation = re.search("\"explanation\":\".*\",\"h", text)
+    explanation = re.search("\"explanation\":\".*\",\"", text)
     image = re.search("\"url\":\".*\"}", text)
     out += explanation.group(0)[15:-4] + "\n"
     out += image.group(0)[7:-2]
@@ -242,8 +241,8 @@ async def fact(message):
 
 async def cat(message):
     await clear_func_call(message)
-    id = random.randint(1, 1500)
-    result = await request_call("http://random.cat/view/" + str(id), "><img src=\"https://purr.objects.*\" alt=", 11 , -6)
+    rand = random.randint(1, 1500)
+    result = await request_call("http://random.cat/view/" + str(rand), "><img src=\"https://purr.objects.*\" alt=", 11 , -6)
     await message.channel.send(result)
 
 async def request_call(url="", search="", startOffset=0,endOffset=0):
