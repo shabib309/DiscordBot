@@ -367,10 +367,10 @@ async def on_message(message):
         await fact(message)
     elif option == '!cat':
         await cat(message)
-    elif temp[0] == '!stats' and temp[1] != '':
-        await stats(message, temp[1])
     elif temp[0] == '!stats':
         await stats_all(message)
+    elif temp[0] == '!stats' and temp[1] != '':
+        await stats(message, temp[1])
 
     if option == '!stats':
         return
