@@ -7,11 +7,13 @@ import os
 import requests
 import re
 import translators as ts
+import sqlite3 as sl
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 NASA_TOKEN = os.getenv('NASA_TOKEN')
 WEATHER_TOKEN = os.getenv('WEATHER_TOKEN')
+TWITTER_TOKEN = os.getenv('TWITTER_TOKEN')
 
 options = {"!help", "!cat", "!botinfo", "!init_daily (Can only be started once) <channelID>", "!dog", "!steam <YourSteamLink>", "!print <YourText>", "!donate", "!weather <cityName>", "!ip <ip-address>", "!translate <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
 options = sorted(options, key=str.lower)
@@ -29,6 +31,9 @@ quote_id = 0
 
 @client.event
 async def on_ready():
+    con = sl.connect("stats.db")
+    sql = "CREATE TABLE IF NOT EXISTS stats (author Text,command Text,count Integer DEFAULT 0, PRIMARY KEY(author, command))"
+    con.execute(sql)
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="ASMR"))
     global nasa_id
     nasa_id = 0
@@ -245,6 +250,40 @@ async def cat(message):
     result = await request_call("http://random.cat/view/" + str(rand), "><img src=\"https://purr.objects.*\" alt=", 11 , -6)
     await message.channel.send(result)
 
+async def twitter(id):
+    headers = {"Authorization": "Bearer " + TWITTER_TOKEN}
+    url = "https://api.twitter.com/2/tweets/search/recent?query=python"
+    response = requests.request("GET", url, headers).text
+    channel = client.get_channel(int(id))
+    if id != 0:
+        try:
+            old_msg = await channel.fetch_message(id)
+            if old_msg.content != response:
+                await old_msg.delete()
+                await channel.send(response)
+        except:
+            await channel.send(response)
+
+async def stats(message, name):
+    await clear_func_call(message)
+    con = sl.connect("stats.db")
+    cur = con.cursor()
+    sql = "SELECT * FROM stats WHERE author = '{}'".format(name)
+    cur.execute(sql)
+    list = cur.fetchall()
+    out = "Stats for " + name + ":\n"
+    out += str(list)
+    x = out.replace("), (", "\n")
+    await message.channel.send(x)
+
+async def stats_all(message):
+    await clear_func_call(message)
+    con = sl.connect("stats.db")
+    cur = con.cursor()
+    list = cur.fetchall()
+    await message.channel.send(list)
+
+
 async def request_call(url="", search="", startOffset=0,endOffset=0):
     if url == "":
         return ""
@@ -268,10 +307,14 @@ async def init_daily(message, id):
         return
     client.loop.create_task(apod(id))
     client.loop.create_task(qotd(id))
+    #client.loop.create_task(twitter(id)) deactivated until development // TODO
     daily_running = True
 
 async def clear_func_call(message_for_delete):
-    await message_for_delete.channel.purge(limit=1)
+    try:
+        await message_for_delete.channel.purge(limit=1)
+    except:
+        return
 
 
 @client.event
@@ -323,5 +366,21 @@ async def on_message(message):
         await fact(message)
     elif option == '!cat':
         await cat(message)
+    elif temp[0] == '!stats' and temp[1] != '':
+        await stats(message, temp[1])
+    elif temp[0] == '!stats' and temp[1] == '':
+        await stats_all(message)
+    if option == '!stats':
+        return
+    temp_author = message.author.display_name
+    con = sl.connect('stats.db')
+    sql = "UPDATE stats SET count = count + 1 WHERE author = '{}' AND command = '{}'".format(temp_author, temp[0][1:])
+    cur = con.execute(sql)
+    if cur.rowcount == 0:
+        sql = "INSERT INTO stats (author, command, count) VALUES('{}', '{}', 1)".format(temp_author, temp[0][1:])
+        con.execute(sql)
+    con.commit()
+    con.close()
+    
 
-client.run(TOKEN)
+client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.F2UJVxRRjxGaq_zScDGHAdxSTbU")
