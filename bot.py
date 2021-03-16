@@ -15,7 +15,7 @@ NASA_TOKEN = os.getenv('NASA_TOKEN')
 WEATHER_TOKEN = os.getenv('WEATHER_TOKEN')
 TWITTER_TOKEN = os.getenv('TWITTER_TOKEN')
 
-options = {"!help", "!cat", "!botinfo", "!init_daily (Can only be started once) <channelID>", "!dog", "!steam <YourSteamLink>", "!print <YourText>", "!donate", "!weather <cityName>", "!ip <ip-address>", "!translate <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
+options = {"!help", "!cat", "!stats <optional with name>", "!botinfo", "!init_daily (Can only be started once) <channelID>", "!dog", "!steam <YourSteamLink>", "!print <YourText>", "!donate", "!weather <cityName>", "!ip <ip-address>", "!translate <YourText>", "!pin <message_id>", "!joke", "!fuckoff", "!Russisch Roulette", "!CoinFlip", "!clear <quantity (limit = 10)>", "!clear_message <message_id>", "!embed <YourText>", "!quote <YourText>"}
 options = sorted(options, key=str.lower)
 
 actions = ['awesome/', 'because/', 'bye/', 'cool/', 'diabetes/', 'everyone/', 'everything/', 'fascinating/', 'flying/', 'life/', 'pink/', 'thanks/', 'that/', 'this/', 'what/']
