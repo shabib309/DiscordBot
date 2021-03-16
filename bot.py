@@ -369,8 +369,9 @@ async def on_message(message):
         await cat(message)
     elif temp[0] == '!stats' and temp[1] != '':
         await stats(message, temp[1])
-    elif temp[0] == '!stats' and temp[1] == '':
+    elif temp[0] == '!stats':
         await stats_all(message)
+
     if option == '!stats':
         return
     temp_author = message.author.display_name
