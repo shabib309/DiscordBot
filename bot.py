@@ -281,7 +281,12 @@ async def stats_all(message):
     await clear_func_call(message)
     global con
     cur = con.cursor()
+    sql = "SELECT * FROM stats"
+    cur.execute(sql)
     list = cur.fetchall()
+    out = "Stats for all:\n"
+    out += str(list)
+    x = out.replace("), (", "\n")
     await message.channel.send(list)
 
 
