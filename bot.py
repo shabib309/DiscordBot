@@ -267,7 +267,7 @@ async def twitter(id):
 
 async def stats(message, name):
     await clear_func_call(message)
-    con = sl.connect("stats.db")
+    global con
     cur = con.cursor()
     sql = "SELECT * FROM stats WHERE author = '{}'".format(name)
     cur.execute(sql)
@@ -279,7 +279,7 @@ async def stats(message, name):
 
 async def stats_all(message):
     await clear_func_call(message)
-    con = sl.connect("stats.db")
+    global con
     cur = con.cursor()
     list = cur.fetchall()
     await message.channel.send(list)
