@@ -22,11 +22,12 @@ actions = ['awesome/', 'because/', 'bye/', 'cool/', 'diabetes/', 'everyone/', 'e
 
 client = commands.Bot(command_prefix='!')
 
-global daily_running, coinflip_running, delete_id, quote_id
+global daily_running, coinflip_running, delete_id, quote_id, con
 coinflip_running = False
 daily_running = False
 delete_id = 0
 quote_id = 0
+con = sl.connect("stats.db")
 
 
 @client.event
@@ -373,14 +374,14 @@ async def on_message(message):
     if option == '!stats':
         return
     temp_author = message.author.display_name
-    con = sl.connect('stats.db')
+    global con
     sql = "UPDATE stats SET count = count + 1 WHERE author = '{}' AND command = '{}'".format(temp_author, temp[0][1:])
     cur = con.execute(sql)
     if cur.rowcount == 0:
         sql = "INSERT INTO stats (author, command, count) VALUES('{}', '{}', 1)".format(temp_author, temp[0][1:])
         con.execute(sql)
     con.commit()
-    con.close()
     
 
 client.run(TOKEN)
+con.close()
