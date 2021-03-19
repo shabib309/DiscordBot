@@ -1,4 +1,5 @@
 import asyncio
+from asyncio import tasks
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -22,7 +23,7 @@ actions = ['awesome/', 'because/', 'bye/', 'cool/', 'diabetes/', 'everyone/', 'e
 
 client = commands.Bot(command_prefix='!')
 
-global daily_running, coinflip_running, delete_id, quote_id, con
+global daily_running, coinflip_running, delete_id, quote_id, con, apod_running
 coinflip_running = False
 daily_running = False
 delete_id = 0
@@ -177,7 +178,8 @@ async def apod(id):
     out += image.group(0)[9:-3]
     msg = await channel.send(out)
     nasa_id = msg.id
-    while client.is_ready:
+    global daily_running
+    while client.is_ready and daily_running:
         await asyncio.sleep(60 * 60 * 24)
         await apod(id)
 
@@ -224,9 +226,10 @@ async def qotd(id):
     out = await request_call("https://quotes.rest/qod?language=en", "\"quote\": \".*\",", 10, -2)
     msg = await channel.send(out)
     quote_id = msg.id
-    while client.is_ready:
+    global daily_running
+    while client.is_ready and daily_running:
         await asyncio.sleep(60 * 60 * 24)
-        await apod(id)
+        await qotd(id)
 
 async def steam(message, link):
     await clear_func_call(message)
@@ -310,10 +313,10 @@ async def init_daily(message, id):
     await clear_func_call(message)
     global daily_running
     if daily_running:
+        daily_running = False
         return
-    client.loop.create_task(apod(id))
-    client.loop.create_task(qotd(id))
-    #client.loop.create_task(twitter(id)) deactivated until development // TODO
+    await apod(id)
+    await qotd(id)
     daily_running = True
 
 async def clear_func_call(message_for_delete):
