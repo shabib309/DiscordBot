@@ -171,10 +171,10 @@ async def apod(id):
     out = ""
     url = "https://api.nasa.gov/planetary/apod?api_key=" + NASA_TOKEN
     text = requests.get(url).text
-    explanation = re.search("\"explanation\":\".*\.\",\"", text)
-    image = re.search("\"hdurl\":\".*\.jpg", text)
+    explanation = re.search("\"explanation\":\".*\",\"", text)
+    image = re.search("\"url\":\".*\"}", text)
     out += explanation.group(0)[15:-4] + "\n"
-    out += image.group(0)[9:-3]
+    out += image.group(0)[7:-2]
     msg = await channel.send(out)
     nasa_id = msg.id
     while client.is_ready:
