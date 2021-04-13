@@ -49,7 +49,7 @@ selenium==3.141.0
 simplejson==3.17.0
 six==1.15.0
 sniffio==1.2.0
-soupsieve==2.2
+soupsieve==2.2.1
 toml==0.10.2
 translators==4.7.16
 typing-extensions==3.7.4.3
