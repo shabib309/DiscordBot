@@ -11,8 +11,8 @@ colorama==0.4.4
 discord.py==1.6.0
 geojson==2.5.0
 grpcio==1.37.0
-h11==0.9.0
-h2==3.2.0
+h11==0.12.0
+h2==4.0.0
 hpack==3.0.0
 hstspreload==2020.12.22
 httpcore==0.9.1
@@ -20,7 +20,7 @@ httplib2==0.19.1
 httpx==0.13.3
 hyperframe==5.2.0
 idna==2.10
-jokeapi==0.2.8
+jokeapi==0.2.10
 jokes==0.1.7
 libcst==0.3.17
 loguru==0.5.3
@@ -29,9 +29,9 @@ multidict==5.1.0
 mypy-extensions==0.4.3
 oauth2==1.9.0.post1
 packaging==20.9
-praw==7.1.4
+praw==7.2.0
 prawcore==1.5.0
-proto-plus==1.14.2
+proto-plus==1.18.1
 protobuf==3.15.5
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
@@ -49,7 +49,7 @@ selenium==3.141.0
 simplejson==3.17.0
 six==1.15.0
 sniffio==1.2.0
-soupsieve==2.2
+soupsieve==2.2.1
 toml==0.10.2
 translators==4.7.16
 typing-extensions==3.7.4.3
