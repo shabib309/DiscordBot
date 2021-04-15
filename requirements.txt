@@ -17,8 +17,8 @@ hpack==3.0.0
 hstspreload==2020.12.22
 httpcore==0.9.1
 httplib2==0.19.1
-httpx==0.13.3
 hyperframe==6.0.0
+httpx==0.17.1
 idna==2.10
 jokeapi==0.2.10
 jokes==0.1.7
@@ -61,4 +61,4 @@ win32-setctime==1.0.3
 yarl==1.6.3
 yelp==1.0.2
 yelpapi==2.4.0
-youtube-dl==2021.2.22
+youtube-dl==2021.4.7
