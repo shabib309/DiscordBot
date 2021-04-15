@@ -17,8 +17,8 @@ hpack==3.0.0
 hstspreload==2020.12.22
 httpcore==0.9.1
 httplib2==0.19.1
+hyperframe==6.0.0
 httpx==0.17.1
-hyperframe==5.2.0
 idna==2.10
 jokeapi==0.2.10
 jokes==0.1.7
