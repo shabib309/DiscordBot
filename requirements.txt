@@ -46,7 +46,7 @@ requests==2.25.1
 rfc3986==1.4.0
 rsa==4.7.2
 selenium==3.141.0
-simplejson==3.17.0
+simplejson==3.17.2
 six==1.15.0
 sniffio==1.2.0
 soupsieve==2.2.1
