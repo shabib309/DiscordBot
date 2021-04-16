@@ -56,7 +56,7 @@ typing-extensions==3.7.4.3
 typing-inspect==0.6.0
 update-checker==0.18.0
 urllib3==1.25.8
-websocket-client==0.57.0
+websocket-client==0.58.0
 win32-setctime==1.0.3
 yarl==1.6.3
 yelp==1.0.2
