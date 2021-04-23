@@ -173,9 +173,9 @@ async def apod(id):
     url = "https://api.nasa.gov/planetary/apod?api_key=" + NASA_TOKEN
     text = requests.get(url).text
     explanation = re.search("\"explanation\":\".*\",\"hdurl\"", text)
-    image = re.search("\"hdurl\":\".*.jpg\",\"", text)
+    image = re.search("\"url\":\".*.jpg\"", text)
     out += explanation.group(0)[15:-9] + "\n"
-    out += image.group(0)[9:-3]
+    out += image.group(0)[7:-1]
     msg = await channel.send(out)
     nasa_id = msg.id
     global daily_running
@@ -199,7 +199,7 @@ async def ip(message, ip):
 async def weather(message, cityName):
     await clear_func_call(message)
     response = cityName + " Wetter:\n"
-    response += await request_call("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + WEATHER_TOKEN + "&units=metric", "\"temp\":.*,\"deg", 0, -5)
+    response += await request_call("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + "ffe6e374dd79bbdf314ead39aec1e76f" + "&units=metric", "\"temp\":.*,\"deg", 0, -5)
     old = [",", "{", "}", "\"temp\"", "\"feels_like\"", "\"temp_min\"", "\"temp_max\"", "\"pressure\"", "\"humidity\"", "\"visibility\"", "\"wind\":\"speed\"", ":"]
     new = ["\n", "", "", "Temperatur", "Gefühlt", "Minimum", "Maximum", "Druck", "Luftfeuchtigkeit", "Sichtweite", "Windgeschwindigkeit", " : "]
     i = 0
