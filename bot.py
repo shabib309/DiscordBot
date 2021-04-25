@@ -313,13 +313,17 @@ async def request_call(url="", search="", startOffset=0,endOffset=0):
 
 async def init_daily(message, id):
     await clear_func_call(message)
+    apod_task = None
+    qotd_task = None
     global daily_running
     if daily_running:
         daily_running = False
+        apod_task.cancel()
+        qotd_task.cancel()
         return
     daily_running = True
-    asyncio.get_event_loop().create_task(apod(id))
-    asyncio.get_event_loop().create_task(qotd(id))
+    apod_task = asyncio.get_event_loop().create_task(apod(id))
+    qotd_task = asyncio.get_event_loop().create_task(qotd(id))
 
 async def clear_func_call(message_for_delete):
     try:
