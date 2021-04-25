@@ -44,7 +44,7 @@ async def on_ready():
 
 async def botinfo(message):
     await clear_func_call(message)
-    await message.channel.send('Alive and happy :)')
+    await message.channel.send('Alive on a Raspberry Pi in the basement :)')
 
 
 async def print_text(message, temp):
