@@ -395,5 +395,5 @@ async def on_message(message):
     con.commit()
     
 
-client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.HvZhAMQbZIdRWnlnJNDWpKLuSPs")
+client.run(TOKEN)
 con.close()
