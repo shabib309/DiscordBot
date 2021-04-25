@@ -172,10 +172,12 @@ async def apod(id):
     out = ""
     url = "https://api.nasa.gov/planetary/apod?api_key=" + NASA_TOKEN
     text = requests.get(url).text
-    explanation = re.search("\"explanation\":\".*\",\"hdurl\"", text)
-    image = re.search("\"url\":\".*.jpg\"", text)
-    out += explanation.group(0)[15:-9] + "\n"
-    out += image.group(0)[7:-1]
+    explanation = re.search("\"explanation\":\".*\",\"media_type", text)
+    image = re.search("\"url\":\".*\"", text)
+    if explanation is not None:
+        out += explanation.group(0)[15:-13] + "\n"
+    if image is not None:
+        out += image.group(0)[7:-1]
     msg = await channel.send(out)
     nasa_id = msg.id
     global daily_running
@@ -315,9 +317,9 @@ async def init_daily(message, id):
     if daily_running:
         daily_running = False
         return
-    await apod(id)
-    await qotd(id)
     daily_running = True
+    asyncio.get_event_loop().create_task(apod(id))
+    asyncio.get_event_loop().create_task(qotd(id))
 
 async def clear_func_call(message_for_delete):
     try:
@@ -393,5 +395,5 @@ async def on_message(message):
     con.commit()
     
 
-client.run(TOKEN)
+client.run("ODEzMTY1NTcxNzA0NjE5MDI4.YDLVdA.HvZhAMQbZIdRWnlnJNDWpKLuSPs")
 con.close()
