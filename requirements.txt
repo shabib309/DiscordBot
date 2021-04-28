@@ -18,7 +18,7 @@ hstspreload==2020.12.22
 httpcore==0.12.3
 httplib2==0.19.1
 hyperframe==6.0.0
-httpx==0.17.1
+httpx==0.18.0
 idna==3.1
 jokeapi==0.2.10
 jokes==0.1.7
