@@ -172,7 +172,7 @@ async def apod(id):
     out = ""
     url = "https://api.nasa.gov/planetary/apod?api_key=" + NASA_TOKEN
     text = requests.get(url).text
-    explanation = re.search("\"explanation\":\".*\",", text)
+    explanation = re.search("\"explanation\":\".*\.\",", text)
     image = re.search("\"url\":\".*\"", text)
     if explanation is not None:
         out += explanation.group(0)[15:-1] + "\n"
