@@ -22,7 +22,7 @@ httpx==0.17.1
 idna==3.1
 jokeapi==0.2.10
 jokes==0.1.7
-libcst==0.3.17
+libcst==0.3.19
 loguru==0.5.3
 lxml==4.6.3
 multidict==5.1.0
