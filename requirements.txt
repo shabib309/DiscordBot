@@ -53,7 +53,7 @@ soupsieve==2.2.1
 toml==0.10.2
 translators==4.7.16
 typing-extensions==3.7.4.3
-typing-inspect==0.6.0
+typing-inspect==0.7.0
 update-checker==0.18.0
 urllib3==1.26.4
 websocket-client==0.58.0
