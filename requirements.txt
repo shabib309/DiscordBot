@@ -51,7 +51,7 @@ six==1.15.0
 sniffio==1.2.0
 soupsieve==2.2.1
 toml==0.10.2
-translators==4.7.16
+translators==4.7.20
 typing-extensions==3.7.4.3
 typing-inspect==0.6.0
 update-checker==0.18.0
