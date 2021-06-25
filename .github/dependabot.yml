@@ -1,0 +1,16 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 99
+  assignees:
+  - shabib309
+  ignore:
+  - dependency-name: youtube-dl
+    versions:
+    - 2021.4.17
+  - dependency-name: aiohttp
+    versions:
+    - 3.7.4.post0
